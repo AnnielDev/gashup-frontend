@@ -1,9 +1,9 @@
 "use client";
-import {
+import React, {
   useState,
   useEffect,
   ChangeEvent,
-  MouseEvent as ReactMouseEvent,
+
 } from "react";
 
 // MUI
@@ -40,7 +40,7 @@ import { IUser } from "@/types/user";
 export default function Account() {
   const { session } = useAuthProvider();
   const [updateData, setUpdateData] = useState<IUser>({
-    code: process.env.NEXT_PUBLIC_USER_CODE,
+    code: "USER",
     name: "",
     email: "",
     password: "",
@@ -100,7 +100,7 @@ export default function Account() {
     const { value } = e.target;
     setUpdateData({ ...updateData, [name]: value });
   };
-  const handleMouseDownPassword = (event: ReactMouseEvent): void => {
+  const handleMouseDownPassword = (event: React.MouseEvent): void => {
     event.preventDefault();
   };
 
@@ -147,8 +147,7 @@ export default function Account() {
     }
   };
 
-  const triggerFileInput = (e: ReactMouseEvent) => {
-    e.stopPropagation();
+  const triggerFileInput = (): void => {
     const fileInput = document.getElementById("file-input");
     if (fileInput) {
       fileInput.click();
