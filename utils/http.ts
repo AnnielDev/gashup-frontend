@@ -2,9 +2,9 @@ import axios from "axios";
 
 const http = axios.create({
   baseURL:
-    process.env.NODE_ENV === "production"
-      ? process.env.NEXT_PUBLIC_API_URL
-      : "http://localhost:3006/api/",
+    window.location.hostname === 'localhost'
+      ? "http://localhost:3006/api/"
+      : 'https://gashup-api-1-klou9083q-jeferson-mercedes-projects.vercel.app/api/',
 });
 
 export default http;
