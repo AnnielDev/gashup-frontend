@@ -52,6 +52,10 @@ export function ChatMembers({
             style={{ height: "calc(100vh - 298px)", overflowY: "auto" }}
           >
             {chat?.members_id?.map((member, index) => {
+              if (typeof member === 'string') {
+
+                return null;
+              }
               return (
                 <ChatMember
                   key={index}

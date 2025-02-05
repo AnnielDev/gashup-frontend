@@ -38,10 +38,11 @@ export function CommunityChats({
       <div className="flex flex-col gap-2 mt-1 pb-2 community-chats">
         {communityChats && communityChats?.length > 0 ? (
           communityChats?.map((item, index) => {
+            const image = typeof item?.img === 'string' ? item.img : "";
             return (
               <CommunityItem
                 key={index}
-                image={item?.img ?? ""}
+                image={image}
                 name={item.name}
                 members={item?.members_id ? item?.members_id.length : 0}
                 isSelected={selectedChat?._id === item._id}

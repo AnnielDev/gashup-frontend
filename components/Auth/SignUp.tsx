@@ -42,7 +42,7 @@ export default function SignUp({ setAuthState }: Props) {
     useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
   const [signUpData, setSignUpData] = useState<IUser>({
-    code: process.env.NEXT_PUBLIC_USER_CODE,
+    code: process.env.NEXT_PUBLIC_USER_CODE ?? "",
     name: "",
     email: "",
     password: "",

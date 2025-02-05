@@ -1,7 +1,6 @@
 import { Avatar } from "../Avatar/Avatar";
 import { FaUserGroup } from "react-icons/fa6";
 import { BsFillPersonFill } from "react-icons/bs";
-import { ICommunityChats } from "@/types/chats";
 interface Props {
   image: string;
   name: string;
