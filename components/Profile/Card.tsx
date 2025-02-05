@@ -21,12 +21,12 @@ export function Card({ followed, onClick }: Props) {
           </span>
           <div className="flex flex-row items-center gap-1">
             <div>
-              <span className="font-semibold">{followed.followed.length}</span>
+              <span className="font-semibold">{followed.followed ? followed.followed.length : 0}</span>
               <span className="font-normal"> siguiendo</span>
             </div>
             <div className="flex flex-row items-center gap-1">
               <span className="font-semibold">
-                {followed?.followers.length}
+                {followed?.followers ? followed.followers.length : 0}
               </span>
               <span className="font-normal">
                 {followed?.followers && followed?.followers.length > 1

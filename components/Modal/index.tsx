@@ -23,7 +23,7 @@ export default function Modal({
     <ModalMUI
       open={modal}
       onClose={(event, reason) => {
-        if (reason !== "backdropClick" && reason !== "escapeKeyDown") {
+        if (reason !== "backdropClick" && reason !== "escapeKeyDown" && onClose) {
           onClose();
         }
       }}
