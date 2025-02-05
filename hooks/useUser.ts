@@ -30,7 +30,7 @@ export const useUpdateUser = (id: string, body: IUser): UseUserType => {
   if (body.img) {
     formData.append("img", body.img);
   } else {
-    formData.append("img", null);
+    formData.append("img", '');
   }
   if (body.banner) {
     formData.append("banner", body.banner);
