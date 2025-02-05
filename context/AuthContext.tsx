@@ -3,7 +3,6 @@ import {
   useState,
   ReactNode,
   useContext,
-  useEffect,
 } from "react";
 import type { IUser } from "@/types/user";
 
@@ -20,9 +19,9 @@ interface SessionState {
 
 const defaultState: SessionState = {
   session: null,
-  setSessionState: (userSession: IUser | null) => {}, // Placeholder, should match actual implementation
-  removeSession: () => {},
-  handleFollowed: (id: string, type: string) => {},
+  setSessionState: (userSession: IUser | null) => { }, // Placeholder, should match actual implementation
+  removeSession: () => { },
+  handleFollowed: (id: string, type: string) => { },
 };
 
 export const AuthContext = createContext<SessionState>(defaultState);
@@ -51,10 +50,10 @@ export function AuthProvider({ children }: Props) {
   const handleFollowed = (id: string, type: string) => {
     if (session) {
       let followed;
-      if (type === "unfollow") {
+      if (type === "unfollow" && session.followed) {
         followed = session.followed.filter((item) => item !== id);
       } else {
-        followed = [...session.followed, id];
+        if (session.followed) followed = [...session?.followed, id];
       }
       const updatedSession = { ...session, followed };
       setSession(updatedSession);
