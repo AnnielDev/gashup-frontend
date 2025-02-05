@@ -59,13 +59,13 @@ export default function RootLayout({
               <div className="flex flex-row items-center gap-2">
                 <span>
                   <span className="font-semibold">
-                    {session?.followed.length}
+                    {session?.followed ? session.followed.length : 0}
                   </span>
                   <span className="font-normal"> siguiendo</span>
                 </span>
                 <span>
                   <span className="font-semibold">
-                    {session?.followers.length}
+                    {session?.followers ? session.followers.length : 0}
                   </span>
                   <span className="font-normal">
                     {session?.followers && session?.followers.length > 1
@@ -97,13 +97,14 @@ export default function RootLayout({
             <div className="flex flex-row items-center gap-2">
               <span>
                 <span className="font-semibold">
-                  {session?.followed.length}
+                  {session?.followed ? session.followed.length : 0}
+
                 </span>
                 <span className="font-normal"> siguiendo</span>
               </span>
               <span>
                 <span className="font-semibold">
-                  {session?.followers.length}
+                  {session?.followers ? session.followers.length : 0}
                 </span>
                 <span className="font-normal">
                   {session?.followers && session?.followers.length > 1
