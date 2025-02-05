@@ -38,7 +38,8 @@ export default function User({ params }: { params: { id: string } }) {
     }
   }, [session]);
   useEffect(() => {
-    const isUserFollowed = session?.followed.includes(params.id);
+    let isUserFollowed = false;
+    if (session?.followed) isUserFollowed = session?.followed.includes(params.id);
     if (isUserFollowed) {
       setIsFollowing(true);
     } else {
@@ -48,7 +49,8 @@ export default function User({ params }: { params: { id: string } }) {
   }, [params.id]);
 
   const handleFollow = async () => {
-    const findUser = session?.followed.includes(params.id);
+    let findUser = false
+    if (session?.followed) findUser = session?.followed.includes(params.id);
     if (session) {
       if (findUser) {
         await loadUnFollow({ userToUnFollow: params.id });
@@ -105,13 +107,13 @@ export default function User({ params }: { params: { id: string } }) {
             <div className="flex flex-row items-center gap-2 max-md:mt-6">
               <span>
                 <span className="font-semibold">
-                  {data.user?.followed.length}
+                  {data.user?.followed ? data.user.followed.length : 0}
                 </span>
                 <span className="font-normal"> siguiendo</span>
               </span>
               <span>
                 <span className="font-semibold">
-                  {data.user?.followers.length}
+                  {data.user.followers ? data.user.followers.length : 0}
                 </span>
                 <span className="font-normal">
                   {data.user?.followers && data.user?.followers.length > 1
@@ -160,13 +162,13 @@ export default function User({ params }: { params: { id: string } }) {
                 <div className="flex flex-row items-center gap-2">
                   <span>
                     <span className="font-semibold">
-                      {data.user?.followed.length}
+                      {data.user?.followed ? data.user.followed.length : 0}
                     </span>
                     <span className="font-normal"> siguiendo</span>
                   </span>
                   <span>
                     <span className="font-semibold">
-                      {data.user?.followers.length}
+                      {data.user?.followers ? data.user.followers.length : 0}
                     </span>
                     <span className="font-normal">
                       {data.user?.followers && data.user?.followers.length > 1
