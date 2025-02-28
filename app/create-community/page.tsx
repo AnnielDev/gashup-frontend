@@ -102,7 +102,7 @@ export default function CreateCommunity() {
   };
 
   const onSubmit = async () => {
-    setOpenConfirmationModal(false)
+    setOpenConfirmationModal(false);
     // e.preventDefault();
 
     if (!communityData.img) {
@@ -197,7 +197,7 @@ export default function CreateCommunity() {
   const onDeleteImage = () => {
     setImagePreview("");
     setCommunityData((prev) => ({ ...prev, img: "" }));
-    const fileInput = document.getElementById(
+    const fileInput = document?.getElementById(
       "file-input-image"
     ) as HTMLInputElement;
     if (fileInput) {
@@ -208,7 +208,7 @@ export default function CreateCommunity() {
   const onDeleteBanner = () => {
     setBannerPreview("");
     setCommunityData((prev) => ({ ...prev, banner: "" }));
-    const fileInput = document.getElementById(
+    const fileInput = document?.getElementById(
       "file-input-banner"
     ) as HTMLInputElement;
     if (fileInput) {
@@ -229,7 +229,7 @@ export default function CreateCommunity() {
   };
 
   const triggerFileInput = (type: string) => {
-    const fileInput = document.getElementById(type);
+    const fileInput = document?.getElementById(type);
     if (fileInput) {
       fileInput.click();
     }
@@ -242,7 +242,7 @@ export default function CreateCommunity() {
           {/* Alert */}
           <ToastContainer />
           <Spinner loading={loading} message="Cargando..." />
-          <Spinner loading={loadingCreate} message="Creando comunidad..."/>
+          <Spinner loading={loadingCreate} message="Creando comunidad..." />
           <ImagePreview
             modal={modal || modalBanner}
             onClose={onClose}
@@ -260,7 +260,9 @@ export default function CreateCommunity() {
           />
           <div className="w-full md:w-[70%] p-1">
             <div className="flex flex-row justify-between items-center mt-2 mb-5">
-              <h1 className="font-bold text-xl md:text-3xl text-[#2c3e76]">Crear comunidad</h1>
+              <h1 className="font-bold text-xl md:text-3xl text-[#2c3e76]">
+                Crear comunidad
+              </h1>
               <div>
                 <Button
                   variant="outlined"

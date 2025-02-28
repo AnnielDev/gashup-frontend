@@ -1,10 +1,5 @@
 "use client";
-import React, {
-  useState,
-  useEffect,
-  ChangeEvent,
-
-} from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 
 // MUI
 import FormControl from "@mui/material/FormControl";
@@ -148,7 +143,7 @@ export default function Account() {
   };
 
   const triggerFileInput = (): void => {
-    const fileInput = document.getElementById("file-input");
+    const fileInput = document?.getElementById("file-input");
     if (fileInput) {
       fileInput.click();
     }

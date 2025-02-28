@@ -3,6 +3,7 @@
 import {
   createContext,
   useState,
+  useEffect,
   ReactNode,
   useContext,
 } from "react";
@@ -21,36 +22,43 @@ interface SessionState {
 
 const defaultState: SessionState = {
   session: null,
-  setSessionState: (userSession: IUser | null) => { }, // Placeholder, should match actual implementation
-  removeSession: () => { },
-  handleFollowed: (id: string, type: string) => { },
+  setSessionState: () => {},
+  removeSession: () => {},
+  handleFollowed: () => {},
 };
 
 export const AuthContext = createContext<SessionState>(defaultState);
 
 export function AuthProvider({ children }: Props) {
-  const [session, setSession] = useState<IUser | null>(() => {
-    const storedSession = localStorage.getItem("session");
-    return storedSession ? JSON.parse(storedSession) : null;
-  });
+  const [session, setSession] = useState<IUser | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedSession = localStorage.getItem("session");
+      setSession(storedSession ? JSON.parse(storedSession) : null);
+    }
+  }, []);
 
   const setSessionState = (userSession: IUser | null) => {
-    if (userSession) {
-      localStorage.setItem("session", JSON.stringify(userSession));
-      setSession(userSession);
-    } else {
-      localStorage.removeItem("session");
-      setSession(null);
+    if (typeof window !== "undefined") {
+      if (userSession) {
+        localStorage.setItem("session", JSON.stringify(userSession));
+      } else {
+        localStorage.removeItem("session");
+      }
     }
+    setSession(userSession);
   };
 
   const removeSession = () => {
-    localStorage.removeItem("session");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("session");
+    }
     setSession(null);
   };
 
   const handleFollowed = (id: string, type: string) => {
-    if (session) {
+    if (session && typeof window !== "undefined") {
       let followed;
       if (type === "unfollow" && session.followed) {
         followed = session.followed.filter((item) => item !== id);
@@ -65,12 +73,7 @@ export function AuthProvider({ children }: Props) {
 
   return (
     <AuthContext.Provider
-      value={{
-        session,
-        setSessionState,
-        removeSession,
-        handleFollowed,
-      }}
+      value={{ session, setSessionState, removeSession, handleFollowed }}
     >
       {children}
     </AuthContext.Provider>

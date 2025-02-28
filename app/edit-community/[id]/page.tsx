@@ -227,7 +227,7 @@ export default function EditCommunity({ params }: { params: { id: string } }) {
   const onDeleteImage = () => {
     setImagePreview("");
     setCommunityData((prev) => ({ ...prev, img: "" }));
-    const fileInput = document.getElementById(
+    const fileInput = document?.getElementById(
       "file-input-image"
     ) as HTMLInputElement;
     if (fileInput) {
@@ -238,7 +238,7 @@ export default function EditCommunity({ params }: { params: { id: string } }) {
   const onDeleteBanner = () => {
     setBannerPreview("");
     setCommunityData((prev) => ({ ...prev, banner: "" }));
-    const fileInput = document.getElementById(
+    const fileInput = document?.getElementById(
       "file-input-banner"
     ) as HTMLInputElement;
     if (fileInput) {
@@ -259,7 +259,7 @@ export default function EditCommunity({ params }: { params: { id: string } }) {
   };
 
   const triggerFileInput = (type: string) => {
-    const fileInput = document.getElementById(type);
+    const fileInput = document?.getElementById(type);
     if (fileInput) {
       fileInput.click();
     }

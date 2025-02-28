@@ -30,10 +30,10 @@ export default function Chats() {
   const [search, setSearch] = useState<string>("");
   const [showMembers, setShowMembers] = useState<boolean>(false);
   const windowWidth = window.innerWidth;
-  const chatsRef = document.querySelector(
+  const chatsRef = document?.querySelector(
     ".chats-container"
   ) as HTMLElement | null;
-  const chatRef = document.querySelector(
+  const chatRef = document?.querySelector(
     ".messages-container"
   ) as HTMLElement | null;
 

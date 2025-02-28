@@ -95,14 +95,16 @@ export default function SignUp({ setAuthState }: Props) {
   const onDeleteImage = () => {
     setImagePreview("");
     setSignUpData({ ...signUpData, img: "" });
-    const fileInput = document.getElementById("file-input") as HTMLInputElement;
+    const fileInput = document?.getElementById(
+      "file-input"
+    ) as HTMLInputElement;
     if (fileInput) {
       fileInput.value = "";
     }
   };
 
   const triggerFileInput = () => {
-    const fileInput = document.getElementById("file-input");
+    const fileInput = document?.getElementById("file-input");
     if (fileInput) {
       fileInput.click();
     }
@@ -123,7 +125,7 @@ export default function SignUp({ setAuthState }: Props) {
               : "The server may be experiencing problems"
           );
         } else if (response) {
-          let fileInput = document.getElementById(
+          let fileInput = document?.getElementById(
             "file-input"
           ) as HTMLInputElement;
           showAlert("success", response.data.mensaje);

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, ChangeEvent, MouseEvent } from "react";
 
 // ICONS
@@ -29,7 +31,7 @@ export function ProfileAvatar({ photo, onSetImage, onDeleteImage }: Props) {
 
   const triggerFileInput = (e: MouseEvent) => {
     e.stopPropagation();
-    const fileInput = document.getElementById("file-input");
+    const fileInput = document?.getElementById("file-input");
     if (fileInput) {
       fileInput.click();
     }

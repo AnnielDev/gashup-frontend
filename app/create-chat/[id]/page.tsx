@@ -1,4 +1,5 @@
 "use client";
+
 import { useCreateCommunityChat } from "@/hooks/useCommunity";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ICommunityChats } from "@/types/chats";
@@ -131,7 +132,7 @@ export default function CreateCommunityChat({
   const onDeleteImage = () => {
     setImagePreview("");
     setChatData((prev) => ({ ...prev, img: "" }));
-    const fileInput = document.getElementById(
+    const fileInput = document?.getElementById(
       "file-input-image"
     ) as HTMLInputElement;
     if (fileInput) {
@@ -149,7 +150,7 @@ export default function CreateCommunityChat({
   };
 
   const triggerFileInput = (type: string) => {
-    const fileInput = document.getElementById(type);
+    const fileInput = document?.getElementById(type);
     if (fileInput) {
       fileInput.click();
     }
