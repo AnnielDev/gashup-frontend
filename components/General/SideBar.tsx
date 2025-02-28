@@ -26,7 +26,7 @@ export default function SideBar() {
   const windowWidth = window.innerWidth;
   const { session } = useAuthProvider();
   const [showAlert] = useAlert();
-  const sidebarRef = document?.querySelector(".sidebar") as HTMLElement;
+  const sidebarRef = document.querySelector(".sidebar") as HTMLElement;
   const [links, setLinks] = useState<Sidebar[]>([
     {
       icon: <BiSolidHome fontSize={20} className="icon" />,

@@ -13,7 +13,7 @@ export default function TopBar() {
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const [sidebar, setSidebar] = useState<boolean>(false);
   const pathName = usePathname();
-  const sidebarRef = document?.querySelector(".sidebar") as HTMLElement;
+  const sidebarRef = document.querySelector(".sidebar") as HTMLElement;
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);

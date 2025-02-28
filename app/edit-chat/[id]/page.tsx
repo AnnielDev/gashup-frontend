@@ -136,7 +136,7 @@ export default function EditCommunityChat({
   const onDeleteImage = () => {
     setImagePreview("");
     setChatData((prev) => ({ ...prev, img: "" }));
-    const fileInput = document?.getElementById(
+    const fileInput = document.getElementById(
       "file-input-image"
     ) as HTMLInputElement;
     if (fileInput) {
@@ -154,7 +154,7 @@ export default function EditCommunityChat({
   };
 
   const triggerFileInput = (type: string) => {
-    const fileInput = document?.getElementById(type);
+    const fileInput = document.getElementById(type);
     if (fileInput) {
       fileInput.click();
     }

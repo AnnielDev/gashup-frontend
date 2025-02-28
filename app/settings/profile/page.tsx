@@ -27,7 +27,7 @@ export default function Profile() {
 
   const triggerFileInput = (e: ReactMouseEvent) => {
     e.stopPropagation();
-    const fileInput = document?.getElementById("file-input");
+    const fileInput = document.getElementById("file-input");
     if (fileInput) {
       fileInput.click();
     }

@@ -143,7 +143,7 @@ export default function Account() {
   };
 
   const triggerFileInput = (): void => {
-    const fileInput = document?.getElementById("file-input");
+    const fileInput = document.getElementById("file-input");
     if (fileInput) {
       fileInput.click();
     }
