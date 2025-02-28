@@ -1,4 +1,5 @@
 "use client";
+
 import { useUpdateCommunityChat } from "@/hooks/useCommunity";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ICommunityChats } from "@/types/chats";
