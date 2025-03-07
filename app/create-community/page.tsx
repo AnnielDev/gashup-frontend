@@ -5,7 +5,7 @@ import {
   useGetCategories,
   useGetCommunities,
 } from "@/hooks/useCommunity";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { ICommunity } from "@/types/community";
 import { Spinner } from "@/components/Spinner/Spinner";
 import {
@@ -82,14 +82,18 @@ export default function CreateCommunity() {
 
   const [loadingCreate, loadCreate] = useCreateCommunity(communityData);
   const [openConfimationModal, setOpenConfirmationModal] = useState(false);
+  const fileInput = useRef<HTMLInputElement>(null);
+  const fileInputBanner = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (session === null) return; // Esperar a que session tenga un valor válido
+
     if (!session?._id) {
       router.back();
     }
 
     getCategories();
-  }, []);
+  }, [session]);
 
   const getCategories = async () => {
     const { response, error } = await loadCategories();
@@ -198,22 +202,16 @@ export default function CreateCommunity() {
   const onDeleteImage = () => {
     setImagePreview("");
     setCommunityData((prev) => ({ ...prev, img: "" }));
-    const fileInput = document.getElementById(
-      "file-input-image"
-    ) as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = "";
+    if(fileInput.current) {
+      fileInput.current.value = "";
     }
   };
 
   const onDeleteBanner = () => {
     setBannerPreview("");
     setCommunityData((prev) => ({ ...prev, banner: "" }));
-    const fileInput = document.getElementById(
-      "file-input-banner"
-    ) as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = "";
+    if(fileInputBanner.current) {
+      fileInputBanner.current.value = "";
     }
   };
 
@@ -227,13 +225,6 @@ export default function CreateCommunity() {
   const onClose = (): void => {
     setModal(false);
     setModalBanner(false);
-  };
-
-  const triggerFileInput = (type: string) => {
-    const fileInput = document.getElementById(type);
-    if (fileInput) {
-      fileInput.click();
-    }
   };
 
   return (
@@ -368,6 +359,7 @@ export default function CreateCommunity() {
                   </Grid>
                   <Grid item xs={12}>
                     <input
+                      ref={fileInput}
                       id="file-input-image"
                       type="file"
                       accept="image/*"
@@ -387,7 +379,7 @@ export default function CreateCommunity() {
                               <MdPhotoLibrary
                                 className="cursor-pointer"
                                 onClick={() =>
-                                  triggerFileInput("file-input-image")
+                                  fileInput.current?.click()
                                 }
                               />
                             </InputAdornment>
@@ -417,6 +409,7 @@ export default function CreateCommunity() {
                   </Grid>
                   <Grid item xs={12}>
                     <input
+                      ref={fileInputBanner}
                       id="file-input-banner"
                       type="file"
                       accept="image/*"
@@ -436,7 +429,7 @@ export default function CreateCommunity() {
                               <MdPhotoLibrary
                                 className="cursor-pointer"
                                 onClick={() =>
-                                  triggerFileInput("file-input-banner")
+                                  fileInputBanner.current?.click()
                                 }
                               />
                             </InputAdornment>

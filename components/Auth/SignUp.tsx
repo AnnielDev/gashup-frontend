@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, MouseEvent } from "react";
+import { useState, ChangeEvent, MouseEvent, useRef } from "react";
 
 // MUI
 import FormControl from "@mui/material/FormControl";
@@ -51,6 +51,8 @@ export default function SignUp({ setAuthState }: Props) {
   });
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   // HOOKS
   const [showAlert] = useAlert();
   const [loading, load] = useSingUp(signUpData);
@@ -95,16 +97,14 @@ export default function SignUp({ setAuthState }: Props) {
   const onDeleteImage = () => {
     setImagePreview("");
     setSignUpData({ ...signUpData, img: "" });
-    const fileInput = document.getElementById("file-input") as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = "";
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
   const triggerFileInput = () => {
-    const fileInput = document.getElementById("file-input");
-    if (fileInput) {
-      fileInput.click();
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
     }
   };
 
@@ -123,9 +123,6 @@ export default function SignUp({ setAuthState }: Props) {
               : "The server may be experiencing problems"
           );
         } else if (response) {
-          let fileInput = document.getElementById(
-            "file-input"
-          ) as HTMLInputElement;
           showAlert("success", response.data.mensaje);
           setSignUpData({
             code: "USER",
@@ -137,7 +134,7 @@ export default function SignUp({ setAuthState }: Props) {
           });
           setConfirmPassword("");
           setImagePreview("");
-          fileInput.value = "";
+          if(fileInputRef.current) fileInputRef.current.value = "";
         }
       } else {
         showAlert("warning", "Different passwords");
@@ -168,6 +165,7 @@ export default function SignUp({ setAuthState }: Props) {
         {/* Form */}
         <div className="flex flex-col">
           <input
+            ref={fileInputRef}
             id="file-input"
             type="file"
             accept="image/*"

@@ -51,28 +51,28 @@ export const useGetCommunityChats = (id: string): UseChatsType => {
 };
 
 export const useGetChatMembers = (id: string): UseChatsType => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingMembers, setLoadingMembers] = useState<boolean>(false);
 
-  async function load(): Promise<{
+  async function loadMembers(): Promise<{
     response: IResponse | null;
     error: IError | null;
   }> {
     try {
-      setLoading(true);
+      setLoadingMembers(true);
       const data = await getChatMembers(id);
       return { response: data, error: null };
     } catch (error: any) {
       return { response: null, error: error };
     } finally {
-      setLoading(false);
+      setLoadingMembers(false);
     }
   }
 
   return [
     //states
-    loading,
+    loadingMembers,
     //methods
-    load,
+    loadMembers,
   ];
 };
 

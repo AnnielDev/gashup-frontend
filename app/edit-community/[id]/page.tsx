@@ -7,7 +7,7 @@ import {
   useGetCommunity,
   useUpdateCommunity,
 } from "@/hooks/useCommunity";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { ICommunity } from "@/types/community";
 import { Spinner } from "@/components/Spinner/Spinner";
 import {
@@ -41,6 +41,7 @@ import { ImagePreview } from "@/components/SignUp/ImagePreview";
 import { ToastContainer } from "react-toastify";
 import AlertDialog from "@/components/ConfirmationDialog";
 import { IUser } from "@/types/user";
+import { ref } from 'firebase/database';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -89,6 +90,8 @@ export default function EditCommunity({ params }: { params: { id: string } }) {
   const [combinedUsers, setCombinedUsers] = useState<IUser[]>([]);
   const [selectedAdmins, setSelectedAdmins] = useState<string[]>([]);
   const [selectedBannedUsers, setSelectedBannedUsers] = useState<string[]>([]);
+  const fileInput = useRef<HTMLInputElement>(null);
+  const fileInputBanner = useRef<HTMLInputElement>(null);
 
   const getCommunity = async () => {
     const { response, error } = await load();
@@ -228,22 +231,16 @@ export default function EditCommunity({ params }: { params: { id: string } }) {
   const onDeleteImage = () => {
     setImagePreview("");
     setCommunityData((prev) => ({ ...prev, img: "" }));
-    const fileInput = document.getElementById(
-      "file-input-image"
-    ) as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = "";
+    if (fileInput.current) {
+      fileInput.current.value = "";
     }
   };
 
   const onDeleteBanner = () => {
     setBannerPreview("");
     setCommunityData((prev) => ({ ...prev, banner: "" }));
-    const fileInput = document.getElementById(
-      "file-input-banner"
-    ) as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = "";
+    if (fileInputBanner.current) {
+      fileInputBanner.current.value = "";
     }
   };
 
@@ -257,13 +254,6 @@ export default function EditCommunity({ params }: { params: { id: string } }) {
   const onClose = (): void => {
     setModal(false);
     setModalBanner(false);
-  };
-
-  const triggerFileInput = (type: string) => {
-    const fileInput = document.getElementById(type);
-    if (fileInput) {
-      fileInput.click();
-    }
   };
 
   const handleAdminChange = (event: SelectChangeEvent<string[]>) => {
@@ -533,6 +523,7 @@ export default function EditCommunity({ params }: { params: { id: string } }) {
                   </Grid>
                   <Grid item xs={12}>
                     <input
+                      ref={fileInput}
                       id="file-input-image"
                       type="file"
                       accept="image/*"
@@ -552,7 +543,7 @@ export default function EditCommunity({ params }: { params: { id: string } }) {
                               <MdPhotoLibrary
                                 className="cursor-pointer"
                                 onClick={() =>
-                                  triggerFileInput("file-input-image")
+                                  fileInput.current?.click()
                                 }
                               />
                             </InputAdornment>
@@ -582,6 +573,7 @@ export default function EditCommunity({ params }: { params: { id: string } }) {
                   </Grid>
                   <Grid item xs={12}>
                     <input
+                      ref={fileInputBanner}
                       id="file-input-banner"
                       type="file"
                       accept="image/*"
@@ -601,7 +593,7 @@ export default function EditCommunity({ params }: { params: { id: string } }) {
                               <MdPhotoLibrary
                                 className="cursor-pointer"
                                 onClick={() =>
-                                  triggerFileInput("file-input-banner")
+                                  fileInputBanner.current?.click()
                                 }
                               />
                             </InputAdornment>

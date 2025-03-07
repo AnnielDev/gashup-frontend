@@ -1,7 +1,7 @@
 "use client";
 
 import { useCreateCommunityChat } from "@/hooks/useCommunity";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { ICommunityChats } from "@/types/chats";
 import { Spinner } from "@/components/Spinner/Spinner";
 import {
@@ -24,6 +24,7 @@ import { Visibility } from "@mui/icons-material";
 import { ImagePreview } from "@/components/SignUp/ImagePreview";
 import { ToastContainer } from "react-toastify";
 import AlertDialog from "@/components/ConfirmationDialog";
+import { ref } from 'firebase/database';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -58,16 +59,13 @@ export default function CreateCommunityChat({
 
   const [loadingCreate, loadCreate] = useCreateCommunityChat(chatData);
   const [openConfimationModal, setOpenConfirmationModal] = useState(false);
+  const fileInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (session === null) return; // Esperar a que session tenga un valor válido
+
     if (!session?._id) {
       router.back();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!session) {
-      redirect("/");
     }
   }, [session]);
 
@@ -132,11 +130,8 @@ export default function CreateCommunityChat({
   const onDeleteImage = () => {
     setImagePreview("");
     setChatData((prev) => ({ ...prev, img: "" }));
-    const fileInput = document.getElementById(
-      "file-input-image"
-    ) as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = "";
+    if (fileInput.current) {
+      fileInput.current.value = "";
     }
   };
 
@@ -149,12 +144,6 @@ export default function CreateCommunityChat({
     setModal(false);
   };
 
-  const triggerFileInput = (type: string) => {
-    const fileInput = document.getElementById(type);
-    if (fileInput) {
-      fileInput.click();
-    }
-  };
   const onCancel = () => {
     router.push(`/chats/${params.id}`);
   };
@@ -244,6 +233,7 @@ export default function CreateCommunityChat({
                   </Grid> */}
                   <Grid item xs={12} sm={6}>
                     <input
+                      ref={fileInput}
                       id="file-input-image"
                       type="file"
                       accept="image/*"
@@ -263,7 +253,7 @@ export default function CreateCommunityChat({
                               <MdPhotoLibrary
                                 className="cursor-pointer"
                                 onClick={() =>
-                                  triggerFileInput("file-input-image")
+                                  fileInput.current?.click()
                                 }
                               />
                             </InputAdornment>

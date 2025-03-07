@@ -1,6 +1,11 @@
 "use client";
 
-import { useState, ChangeEvent, MouseEvent as ReactMouseEvent } from "react";
+import {
+  useState,
+  ChangeEvent,
+  MouseEvent as ReactMouseEvent,
+  useRef,
+} from "react";
 import { ProfileItem } from "@/components/Settings/ProfileItem";
 import { BannerPreview } from "@/components/Settings/BannerPreview";
 import { ToastContainer } from "react-toastify";
@@ -14,6 +19,8 @@ export default function Profile() {
   ];
   const [image, setImage] = useState<File | null>(null);
   const [modal, setModal] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     const file = e.target.files?.[0];
@@ -28,10 +35,7 @@ export default function Profile() {
 
   const triggerFileInput = (e: ReactMouseEvent) => {
     e.stopPropagation();
-    const fileInput = document.getElementById("file-input");
-    if (fileInput) {
-      fileInput.click();
-    }
+    fileInputRef.current?.click();
   };
 
   const onOpenModan = (e: ReactMouseEvent) => {
@@ -44,6 +48,7 @@ export default function Profile() {
   return (
     <>
       <input
+        ref={fileInputRef}
         id="file-input"
         type="file"
         accept="image/*"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent, MouseEvent } from "react";
+import { useState, useEffect, ChangeEvent, MouseEvent, useRef } from "react";
 
 // ICONS
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -16,6 +16,7 @@ interface Props {
 
 export function ProfileAvatar({ photo, onSetImage, onDeleteImage }: Props) {
   const [image, setImage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -31,10 +32,7 @@ export function ProfileAvatar({ photo, onSetImage, onDeleteImage }: Props) {
 
   const triggerFileInput = (e: MouseEvent) => {
     e.stopPropagation();
-    const fileInput = document.getElementById("file-input");
-    if (fileInput) {
-      fileInput.click();
-    }
+    fileInputRef.current?.click();
   };
 
   useEffect(() => {
@@ -70,7 +68,7 @@ export function ProfileAvatar({ photo, onSetImage, onDeleteImage }: Props) {
         />
       </div>
       <input
-        id="file-input"
+        ref={fileInputRef}
         type="file"
         accept="image/*"
         style={{ display: "none" }}

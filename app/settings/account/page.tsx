@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, useRef } from "react";
 
 // MUI
 import FormControl from "@mui/material/FormControl";
@@ -32,6 +32,7 @@ import { LuKeyRound } from "react-icons/lu";
 
 // TYPES
 import { IUser } from "@/types/user";
+import { ref } from "firebase/database";
 
 export default function Account() {
   const { session } = useAuthProvider();
@@ -47,6 +48,7 @@ export default function Account() {
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // HOOKS
   const [loading, load] = useUserById(session?._id ?? "");
@@ -144,14 +146,13 @@ export default function Account() {
   };
 
   const triggerFileInput = (): void => {
-    const fileInput = document.getElementById("file-input");
-    if (fileInput) {
-      fileInput.click();
-    }
+    fileInputRef.current?.click();
   };
+  
   return (
     <div className="flex flex-col">
       <input
+        ref={fileInputRef}
         id="file-input"
         type="file"
         accept="image/*"

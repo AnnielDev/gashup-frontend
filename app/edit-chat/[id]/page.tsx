@@ -1,7 +1,7 @@
 "use client";
 
 import { useUpdateCommunityChat } from "@/hooks/useCommunity";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { ICommunityChats } from "@/types/chats";
 import { Spinner } from "@/components/Spinner/Spinner";
 import {
@@ -59,6 +59,7 @@ export default function EditCommunityChat({
   const [loading, laod] = useGetChatById(params.id);
   const [loadingEdit, laodEdit] = useUpdateCommunityChat(params.id, chatData);
   const [openConfimationModal, setOpenConfirmationModal] = useState(false);
+  const fileInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!session) {
@@ -137,11 +138,8 @@ export default function EditCommunityChat({
   const onDeleteImage = () => {
     setImagePreview("");
     setChatData((prev) => ({ ...prev, img: "" }));
-    const fileInput = document.getElementById(
-      "file-input-image"
-    ) as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = "";
+    if (fileInput.current) {
+      fileInput.current.value = "";
     }
   };
 
@@ -152,13 +150,6 @@ export default function EditCommunityChat({
   };
   const onClose = (): void => {
     setModal(false);
-  };
-
-  const triggerFileInput = (type: string) => {
-    const fileInput = document.getElementById(type);
-    if (fileInput) {
-      fileInput.click();
-    }
   };
 
   return (
@@ -236,6 +227,7 @@ export default function EditCommunityChat({
                   </Grid> */}
                   <Grid item xs={12} sm={6}>
                     <input
+                      ref={fileInput}
                       id="file-input-image"
                       type="file"
                       accept="image/*"
@@ -255,7 +247,7 @@ export default function EditCommunityChat({
                               <MdPhotoLibrary
                                 className="cursor-pointer"
                                 onClick={() =>
-                                  triggerFileInput("file-input-image")
+                                  fileInput.current?.click()
                                 }
                               />
                             </InputAdornment>

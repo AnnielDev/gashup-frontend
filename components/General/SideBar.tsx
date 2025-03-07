@@ -27,7 +27,8 @@ export default function SideBar() {
   const windowWidth = window.innerWidth;
   const { session } = useAuthProvider();
   const [showAlert] = useAlert();
-  const sidebarRef = document.querySelector(".sidebar") as HTMLElement;
+  const [sidebarRef, setSidebarRef] = useState<HTMLElement | null>(null);
+
   const [links, setLinks] = useState<Sidebar[]>([
     {
       icon: <BiSolidHome fontSize={20} className="icon" />,
@@ -64,7 +65,12 @@ export default function SideBar() {
         }),
       }))
     );
+
+    if (typeof window !== "undefined") {
+      setSidebarRef(document.querySelector(".sidebar") as HTMLElement);
+    }
   }, [pathName]);
+
   const goToRoute = (route: string) => {
     if (windowWidth >= 768) {
       if (!session && (route === "/my-communities" || route === "/chats")) {
@@ -77,14 +83,14 @@ export default function SideBar() {
         showAlert("warning", "Debes iniciar sesión");
         return;
       }
-      sidebarRef.style.display = "none";
+      if (sidebarRef) sidebarRef.style.display = "none";
       router.push(route);
     }
   };
 
   const goToHome = () => {
     router.push("/");
-    sidebarRef.style.display = "none";
+    if (sidebarRef) sidebarRef.style.display = "none";
   };
   return (
     <div

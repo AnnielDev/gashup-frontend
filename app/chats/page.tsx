@@ -29,19 +29,15 @@ export default function Chats() {
   const [data, setData] = useState<IDataResponse | null>(null);
   const [search, setSearch] = useState<string>("");
   const [showMembers, setShowMembers] = useState<boolean>(false);
-  const windowWidth = window.innerWidth;
-  const chatsRef = document.querySelector(
-    ".chats-container"
-  ) as HTMLElement | null;
-  const chatRef = document.querySelector(
-    ".messages-container"
-  ) as HTMLElement | null;
+  const [windowWidth, setWindowWidth] = useState<number>(0);
+  const [chatsRef, setChatsRef] = useState<HTMLElement | null>(null);
+  const [chatRef, setChatRef] = useState<HTMLElement | null>(null);
 
   const [selectedChat, setSelectedChat] = useState<ICommunityChats | null>(
     null
   );
   const [loading, load] = useGetCommunityChats(session?._id ?? "");
-  const [, loadMembers] = useGetChatMembers(selectedChat?._id ?? "");
+  const [loadingMembers, loadMembers] = useGetChatMembers(selectedChat?._id ?? "");
   const [messages, loadMessages, loadingMessages] = useGetChats(
     selectedChat?.community_id ?? "",
     selectedChat?._id ?? ""
@@ -100,6 +96,14 @@ export default function Chats() {
       return data?.data;
     }
   }, [search, data?.data]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+      setChatsRef(document.querySelector(".chats-container") as HTMLElement);
+      setChatRef(document.querySelector(".messages-container") as HTMLElement);
+    }
+  }, []);
 
   useEffect(() => {
     if (showMembers) {
